@@ -1,0 +1,13 @@
+/home/thalium/RustroverProjects/fileshare/target/debug/deps/liburl-648717dd2660a07e.rmeta: /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/lib.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/encoding.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/host.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/origin.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/path_segments.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/parser.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/slicing.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/form_urlencoded.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/quirks.rs
+
+/home/thalium/RustroverProjects/fileshare/target/debug/deps/url-648717dd2660a07e.d: /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/lib.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/encoding.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/host.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/origin.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/path_segments.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/parser.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/slicing.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/form_urlencoded.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/quirks.rs
+
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/lib.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/encoding.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/host.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/origin.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/path_segments.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/parser.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/slicing.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/form_urlencoded.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/url-1.7.2/src/quirks.rs:

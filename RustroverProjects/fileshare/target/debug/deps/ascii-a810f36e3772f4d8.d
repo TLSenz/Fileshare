@@ -1,0 +1,11 @@
+/home/thalium/RustroverProjects/fileshare/target/debug/deps/libascii-a810f36e3772f4d8.rmeta: /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/lib.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/free_functions.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_char.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_str.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_string.rs
+
+/home/thalium/RustroverProjects/fileshare/target/debug/deps/libascii-a810f36e3772f4d8.rlib: /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/lib.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/free_functions.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_char.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_str.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_string.rs
+
+/home/thalium/RustroverProjects/fileshare/target/debug/deps/ascii-a810f36e3772f4d8.d: /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/lib.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/free_functions.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_char.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_str.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_string.rs
+
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/lib.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/free_functions.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_char.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_str.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/ascii-0.8.7/src/ascii_string.rs:

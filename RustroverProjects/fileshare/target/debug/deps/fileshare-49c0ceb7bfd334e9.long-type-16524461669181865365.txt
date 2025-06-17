@@ -1,0 +1,1 @@
+fn(axum::Json<CreateUserRequest>) -> impl Future<Output = impl IntoResponse> {signup}: Handler<_, _>

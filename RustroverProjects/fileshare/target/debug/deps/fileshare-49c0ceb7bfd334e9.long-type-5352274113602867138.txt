@@ -1,0 +1,2 @@
+fn(axum::Json<{type error}>, {type error}) -> impl Future<Output = impl IntoResponse> {signup}
+fn(axum::Json<{type error}>, {type error}) -> impl Future<Output = impl IntoResponse> {signup}: Handler<_, _>

@@ -1,0 +1,12 @@
+/home/thalium/RustroverProjects/fileshare/target/debug/deps/libtinystr-70ce2b9438952484.rmeta: /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/lib.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/macros.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/ascii.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/asciibyte.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/error.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/int_ops.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/unvalidated.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/ule.rs
+
+/home/thalium/RustroverProjects/fileshare/target/debug/deps/tinystr-70ce2b9438952484.d: /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/lib.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/macros.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/ascii.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/asciibyte.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/error.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/int_ops.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/unvalidated.rs /home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/ule.rs
+
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/lib.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/macros.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/ascii.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/asciibyte.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/error.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/int_ops.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/unvalidated.rs:
+/home/thalium/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tinystr-0.8.1/src/ule.rs:
