@@ -1,7 +1,13 @@
-use chrono::{DateTime, NaiveDate, NaiveDateTime, Utc}; // IMPORTANT: Use DateTime<Utc>
+use std::fmt;
+use std::fmt::Formatter;
+use std::num::TryFromIntError;
+use axum::http::StatusCode;
+use axum::response::{IntoResponse, Response};
+use bcrypt::BcryptError;
+use chrono::NaiveDateTime;
 use diesel::{Insertable, Queryable, Selectable};
 use serde::{Deserialize, Serialize};
-use crate::schema::*; // Make sure this brings in `file` and `users` tables
+use crate::schema::*;
 
 #[derive(Queryable, Selectable, Serialize, Deserialize, Debug)]
 #[diesel(table_name = users)]
@@ -57,3 +63,37 @@ pub struct FileToInsert {
     // Timestamps are omitted here because your SQL schema has DEFAULT CURRENT_TIMESTAMP for them,
     // so Diesel will not try to insert them, relying on the DB to set them.
 }
+
+#[derive(Debug)]
+pub enum ConversionError {
+    ConversionError(String)
+}
+
+impl fmt::Display for ConversionError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match self {
+            ConversionError::ConversionError(message) => write!(f,"Conversion Error {} ", message)
+        }
+    }
+}
+
+impl std::error::Error for ConversionError{
+
+}
+impl From<TryFromIntError> for ConversionError{
+    fn from(value: TryFromIntError) -> Self {
+        ConversionError::ConversionError(format!("Could nor convert: {} ", value))
+    }
+}
+
+impl From<BcryptError> for ConversionError{
+    fn from(value: BcryptError) -> Self {
+        ConversionError::ConversionError(format!("Error Message:{}", value))
+    }
+}
+impl IntoResponse for ConversionError{
+    fn into_response(self) -> Response {
+        (StatusCode::INTERNAL_SERVER_ERROR, format!("Erro with Storing File and Provide Link: {}", self)).into_response()
+    }
+}
+

@@ -1,0 +1,1 @@
+fn(Multipart) -> impl Future<Output = Result<std::string::String, axum::Error>> {upload_file}: Handler<_, _>

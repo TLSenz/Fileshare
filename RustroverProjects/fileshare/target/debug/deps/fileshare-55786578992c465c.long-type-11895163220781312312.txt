@@ -1,0 +1,2 @@
+fn(Multipart) -> impl Future<Output = Result<Vec<std::string::String>, usermodel::ConversionError>> {upload_file}
+fn(Multipart) -> impl Future<Output = Result<Vec<std::string::String>, usermodel::ConversionError>> {upload_file}: Handler<_, _>

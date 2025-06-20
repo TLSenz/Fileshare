@@ -1,0 +1,2 @@
+fn(Multipart) -> impl Future<Output = Result<std::string::String, std::io::Error>> {upload_file}
+fn(Multipart) -> impl Future<Output = Result<std::string::String, std::io::Error>> {upload_file}: Handler<_, _>

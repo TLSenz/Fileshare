@@ -1,13 +1,15 @@
+use crate::model::usermodel::ConversionError;
 use std::fmt::{format, Error};
 use std::fs::File;
-use std::hash::Hash;
 use std::io::{ErrorKind, Write};
-use axum::Error;
 use axum::extract::Multipart;
 use bcrypt::{bcrypt, hash};
 use serde::de::Unexpected::Str;
 use crate::model::usermodel::{CreateUserRequest, FileToInsert};
 use crate::repository::userrepository::{create_user as other_create_user, write_name_to_db};
+use crate::schema::file_to_link::link;
+use crate::model::usermodel::ConversionError::*;
+
 
 pub async fn create_user(user: CreateUserRequest) -> bool{
     
@@ -24,8 +26,8 @@ pub async fn create_user(user: CreateUserRequest) -> bool{
     }
 }
 
-pub async fn store_files(mut file: Multipart) -> Result<String,Error>{
-
+pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionError>{
+    let mut links = Vec::new();
 
     while let Some(field) = file.next_field().await.unwrap() {
         let mut content_type = String::new();
@@ -55,7 +57,7 @@ pub async fn store_files(mut file: Multipart) -> Result<String,Error>{
         let data_hash = hash(data.clone(),2)?;
         
         
-        let file: FileToInsert = FileToInsert {
+        let file_struct: FileToInsert = FileToInsert {
             file_name: file_name.clone(),
             hashed_file_name: name_link_hash.clone(), 
             content_hash: data_hash.clone(),        
@@ -87,12 +89,13 @@ pub async fn store_files(mut file: Multipart) -> Result<String,Error>{
                 println!("Failing to write to File. Error is: {}", error );
             }
         }
-
+        let other_link = create_link(file_struct).await?;
+        links.push(other_link)
     }
-    todo!()
+    Ok(links)
 }
 
-pub async fn create_link(mut file:FileToInsert) -> Result<String,Error>{
+pub async fn create_link(mut file:FileToInsert) -> Result<String,ConversionError>{
 
   let file = write_name_to_db(file).await;
     
@@ -102,22 +105,11 @@ pub async fn create_link(mut file:FileToInsert) -> Result<String,Error>{
             files = file
         }
         Err(error) => {
-            return Err(Error)
+            return Err(ConversionError("error".to_string()))
         }
     };
     
-    let link = format!("localhost:3000/api/{}", files.hashed_file_name);
-    todo!()
-    
-    
-    
-    
-    
-   
-    
-    
-    
-
-    
+    let other_link = format!("localhost:3000/api/{}", files.hashed_file_name);
+    Ok(other_link)
 
 }
