@@ -6,7 +6,7 @@ use bcrypt::hash;
 use crate::model::filemodel::GetFileResponse;
 use crate::model::usermodel::{ConversionError, FileToInsert};
 use crate::model::usermodel::ConversionError::*;
-use crate::repository::filerepository::{get_file_name_from_db, write_name_to_db};
+use crate::repository::filerepository::{check_if_file_name_exists, get_file_name_from_db, write_name_to_db};
 
 
 pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionError>{
@@ -16,6 +16,11 @@ pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionEr
         let mut content_type = String::new();
 
         let other_file_name = field.name().unwrap().to_string();
+        
+        let check = check_if_file_name_exists(other_file_name.clone()).await?;
+        
+      
+        
         let file_type = field.content_type();
 
         match file_type {
