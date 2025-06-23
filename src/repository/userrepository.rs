@@ -2,7 +2,6 @@ use std::env;
 use std::fmt::Error;
 use diesel::{Connection, ExpressionMethods, QueryDsl, RunQueryDsl, SelectableHelper, SqliteConnection};
 use diesel::associations::HasTable;
-use diesel::dsl::today;
 use dotenv::dotenv;
 use tokio::task;
 use crate::model::usermodel::{CreateUserRequest, File, FileToInsert, User};
@@ -91,6 +90,10 @@ pub async fn get_file_name_from_db(file_name: String) -> Result<Vec<File>, Error
 
     match res {
         Ok(Ok(files)) => {
+            println!("DB Coonection");
+            for filess in files.iter(){
+                println!("CHECKING IF FILE IS LOADING{:?}", filess);
+            }
             Ok(files)
         }
         Ok(Err(_diesel_error)) => {

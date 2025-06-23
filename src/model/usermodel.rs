@@ -1,6 +1,7 @@
 use std::fmt;
 use std::fmt::Formatter;
 use std::num::TryFromIntError;
+use axum::extract::multipart::MultipartError;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use bcrypt::BcryptError;
@@ -47,7 +48,7 @@ pub struct File {
     pub deleted_at: Option<NaiveDateTime>, // <--- THIS IS THE FIX
 }
 
-#[derive(Insertable, Deserialize, Serialize)]
+#[derive(Insertable, Deserialize, Serialize, Debug)]
 #[diesel(table_name = file)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct FileToInsert {
@@ -96,4 +97,8 @@ impl IntoResponse for ConversionError{
         (StatusCode::INTERNAL_SERVER_ERROR, format!("Erro with Storing File and Provide Link: {}", self)).into_response()
     }
 }
-
+impl From<MultipartError> for ConversionError {
+    fn from(err: MultipartError) -> Self {
+        ConversionError::ConversionError("Erorr".to_string())
+    }
+}

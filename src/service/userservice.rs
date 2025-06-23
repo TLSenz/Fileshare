@@ -1,17 +1,15 @@
+use url::*;
 use crate::model::usermodel::ConversionError;
-use std::fmt::{format, Error};
+use std::fmt::Error;
 use std::fs::File;
-use std::io::{ErrorKind, Read, Write};
-use std::sync::atomic::compiler_fence;
+use std::io::{ Write};
 use axum::extract::Multipart;
-use bcrypt::{bcrypt, hash};
-use serde::de::Unexpected::Str;
+use bcrypt::hash;
+use futures::TryFutureExt;
 use crate::model::usermodel::{CreateUserRequest, FileToInsert};
 use crate::repository::userrepository::{create_user as other_create_user, get_file_name_from_db, write_name_to_db};
-use crate::schema::file_to_link::link;
 use crate::model::usermodel::ConversionError::*;
 use crate::model::filemodel::*;
-use crate::schema::file::file_name;
 
 pub async fn create_user(user: CreateUserRequest) -> bool{
     
@@ -46,17 +44,21 @@ pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionEr
                 content_type = "txt".to_string();
             }
         }
+        
+        println!("went to after contenttype");
 
         let filename = "content/".to_owned() + other_file_name.as_str() + &"." + &content_type;
-        let data = field.bytes().await.unwrap();
+        let data = field.bytes().await.map_err(ConversionError::from)?;
+
+        println!("Went after Data");
         println!("{}", filename);
         
         let size = data.len();
         let size = size.try_into()?;
 
         println!("Length of `{:?}` is {} bytes", other_file_name, data.len());
-        let name_link_hash = hash(filename.clone(), 2)?;
-        let data_hash = hash(data.clone(),2)?;
+        let name_link_hash = hash(filename.clone(), 4)?;
+        let data_hash = hash(data.clone(),4)?;
         
         
         let file_struct: FileToInsert = FileToInsert {
@@ -97,21 +99,23 @@ pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionEr
     Ok(links)
 }
 
-pub async fn create_link(mut file:FileToInsert) -> Result<String,ConversionError>{
+pub async fn create_link(file:FileToInsert) -> Result<String,ConversionError>{
 
+    
+    println!("File: {:?}", file);
   let file = write_name_to_db(file).await;
     
-    let mut files;
+    let files;
          match file {
         Ok(file) => {
             files = file
         }
-        Err(error) => {
+        Err(_) => {
             return Err(ConversionError("error".to_string()))
         }
     };
-    
-    let other_link = format!("localhost:3000/api/{}", files.hashed_file_name);
+    println!("Filename: {}", &files.hashed_file_name);
+    let other_link = format!("localhost:3000/api/download/{}", urlencoding::encode(files.hashed_file_name.as_str()));
     Ok(other_link)
 
 }
