@@ -53,7 +53,7 @@ pub async fn create_user(new_user: CreateUserRequest) -> Result<bool, Error>{
 pub async fn write_name_to_db(storing_file: FileToInsert) -> Result<File,Error> {
     let res = task::spawn_blocking(move || {
         let connection =  &mut establish_connection();
-        diesel::insert_into(file::table())
+        diesel::insert_into(file)
             .values(storing_file)
             .returning(File::as_select())
             .get_result::<File>(connection)
@@ -63,9 +63,9 @@ pub async fn write_name_to_db(storing_file: FileToInsert) -> Result<File,Error> 
 
 
     match res {
-        Ok(Ok(File)) => {
-            println!("{:?}", File);
-            Ok(File)
+        Ok(Ok(other_file)) => {
+            println!("{:?}", other_file);
+            Ok(other_file)
         }
         Ok(Err(_diesel_error)) => {
             println!("Database Error");
