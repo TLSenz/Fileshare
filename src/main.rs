@@ -4,8 +4,8 @@ use axum::{
 };
 use axum::routing::post;
 use tower_http::services::ServeDir;
-use crate::controller::filecontroller::download;
-use crate::controller::usercontroller::{signup, upload_file};
+use crate::controller::filecontroller::{download, upload_file};
+use crate::controller::usercontroller::{signup};
 
 #[tokio::main]
 async fn main() {
@@ -35,9 +35,11 @@ pub mod model{
 }
 pub mod repository{
     pub mod userrepository;
+    pub mod filerepository;
 }
 pub mod service{
     pub mod userservice;
+    pub mod fileservice;
 }
 pub mod schema;
 
