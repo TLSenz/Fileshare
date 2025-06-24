@@ -1,3 +1,5 @@
+use std::convert::Infallible;
+use std::env::VarError;
 use std::fmt;
 use std::fmt::Formatter;
 use std::num::TryFromIntError;
@@ -9,6 +11,7 @@ use chrono::NaiveDateTime;
 use diesel::{Insertable, Queryable, Selectable};
 use serde::{Deserialize, Serialize};
 use crate::schema::*;
+use crate::schema::users::password;
 
 #[derive(Queryable, Selectable, Serialize, Deserialize, Debug)]
 #[diesel(table_name = users)]
@@ -27,6 +30,11 @@ pub struct CreateUserRequest{
     pub name: String,
     pub password: String,
     pub email: String,
+}
+#[derive(Serialize,Deserialize,Queryable, Clone)]
+pub struct LoginRequest{
+    pub name:String,
+    pub password: String
 }
 
 #[derive(Queryable, Selectable, Debug, PartialEq)]
@@ -100,5 +108,10 @@ impl IntoResponse for ConversionError{
 impl From<MultipartError> for ConversionError {
     fn from(err: MultipartError) -> Self {
         ConversionError::ConversionError("Erorr".to_string())
+    }
+}
+impl From<VarError> for ConversionError{
+    fn from(value: VarError) -> Self {
+        ConversionError::ConversionError("Error Converting stuff".to_string())
     }
 }

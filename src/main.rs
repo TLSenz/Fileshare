@@ -32,6 +32,7 @@ pub mod controller{
 pub mod model{
     pub mod usermodel;
     pub mod filemodel;
+    pub mod securitymodel;
 }
 pub mod repository{
     pub mod userrepository;
@@ -40,6 +41,9 @@ pub mod repository{
 pub mod service{
     pub mod userservice;
     pub mod fileservice;
+}
+pub mod Security{
+    pub mod JWT;
 }
 pub mod schema;
 
