@@ -1,12 +1,10 @@
 use std::env;
 use std::fmt::Error;
-use diesel::{Connection, ExpressionMethods, QueryDsl, RunQueryDsl, SelectableHelper, SqliteConnection};
+use diesel::{Connection, RunQueryDsl, SqliteConnection};
 use diesel::associations::HasTable;
 use dotenv::dotenv;
 use tokio::task;
-use crate::model::usermodel::{CreateUserRequest, File, FileToInsert, User};
-use crate::schema::file::dsl::file;
-use crate::schema::file::hashed_file_name;
+use crate::model::usermodel::{CreateUserRequest, User};
 use crate::schema::users::dsl::*;
 
 pub fn establish_connection() -> SqliteConnection {

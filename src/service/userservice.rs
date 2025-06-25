@@ -1,4 +1,4 @@
-use crate::model::usermodel::{CreateUserRequest, FileToInsert};
+use crate::model::usermodel::CreateUserRequest;
 use crate::repository::userrepository::{create_user as other_create_user};
 
 pub async fn create_user(user: CreateUserRequest) -> bool{

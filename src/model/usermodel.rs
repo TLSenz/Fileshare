@@ -1,4 +1,3 @@
-use std::convert::Infallible;
 use std::env::VarError;
 use std::fmt;
 use std::fmt::Formatter;
@@ -11,7 +10,6 @@ use chrono::NaiveDateTime;
 use diesel::{Insertable, Queryable, Selectable};
 use serde::{Deserialize, Serialize};
 use crate::schema::*;
-use crate::schema::users::password;
 
 #[derive(Queryable, Selectable, Serialize, Deserialize, Debug)]
 #[diesel(table_name = users)]
