@@ -1,18 +1,17 @@
-use axum::{
-    routing::{get, },
-     Router,
-};
+use axum::{middleware, routing::{get, }, Router};
 use axum::routing::post;
 use tower_http::services::ServeDir;
 use crate::controller::filecontroller::{download, upload_file};
-use crate::controller::usercontroller::{signup};
+use crate::controller::usercontroller::{login, signup};
+use crate::Security::jwt::authenticate;
 
 #[tokio::main]
 async fn main() {
     let app = Router::new()
         .route("/", get(hello_world) )
+        .route("/api/login", post(login))
         .route("/api/signup", post(signup))
-        .route("/api/upload", post(upload_file))
+        .route("/api/upload", post(upload_file).layer(middleware::from_fn(authenticate)))
         .route("/api/download/{file_link}", get(download))
         .nest_service("/files", ServeDir::new("content"));
     
@@ -43,7 +42,7 @@ pub mod service{
     pub mod fileservice;
 }
 pub mod Security{
-    pub mod JWT;
+    pub mod jwt;
 }
 pub mod schema;
 

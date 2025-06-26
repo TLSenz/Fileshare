@@ -1,15 +1,17 @@
-use crate::Security::JWT::AuthError::AuthError;
+
 use std::env;
-use std::fmt::Error;
+
 use axum::{http, Error};
+use axum::body::Body;
 use axum::http::{HeaderValue, Response, StatusCode};
 use axum::extract::Request;
 use axum::middleware::Next;
 use dotenv::dotenv;
 use jsonwebtoken::{encode, Algorithm, EncodingKey, Header, Validation, decode, DecodingKey, TokenData};
 use crate::model::securitymodel::{AuthError, EncodeJWT};
-use crate::model::securitymodel::AuthError::AuthError;
+use crate::model::securitymodel::AuthError::*;
 use crate::model::usermodel::ConversionError;
+use crate::repository::userrepository::check_if_user_exist;
 
 pub fn encode_jwt(name: &str, email: &str) -> Result<String, ConversionError>{
 
@@ -32,7 +34,7 @@ pub fn decode_jwt(jwt_token: String)->  Result<TokenData<EncodeJWT>, ConversionE
     Ok(token_message)
 }
 
-pub async fn authenticate(mut req:Request, next: Next ) -> Result<Response<Header>, AuthError>{
+pub async fn authenticate(mut req:Request, next: Next ) -> Result<Response<Body>, AuthError>{
     let auth_header = req.headers().get(http::header::AUTHORIZATION);
     let auth_header = match auth_header {
         Some(header) => { header.to_str().map_err(|_| AuthError("Empty header is not allowed".to_string(), StatusCode::FORBIDDEN))},
@@ -41,7 +43,10 @@ pub async fn authenticate(mut req:Request, next: Next ) -> Result<Response<Heade
     
     let mut header = auth_header.split_whitespace();
     let (bearer, token) = (header.next(), header.next());
-    let token_data = decode_jwt(token.unwrap().to_string());
+    let token_data = decode_jwt(token.unwrap().to_string())?;
+    if !check_if_user_exist(token_data.claims).await?{
+        return  Err(AuthError("User in JWT Token does not exist in Database".to_string(), StatusCode::FORBIDDEN))
+    }
+    Ok(next.run(req).await)
     
-    todo!()
 }

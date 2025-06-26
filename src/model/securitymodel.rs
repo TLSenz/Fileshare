@@ -2,7 +2,8 @@ use std::fmt;
 use std::fmt::{write, Formatter};
 use axum::http::StatusCode;
 use serde::{Deserialize, Serialize};
-use crate::model::usermodel::ConversionError;
+use crate::model::usermodel;
+
 
 #[derive(Deserialize, Serialize)]
 pub struct EncodeJWT{
@@ -26,4 +27,11 @@ impl fmt::Display for AuthError {
 
 
 impl std::error::Error for AuthError{
+}
+
+impl From<usermodel::ConversionError> for AuthError {
+    fn from(err: usermodel::ConversionError) -> Self {
+        
+        AuthError::AuthError("Error".to_string(), StatusCode::INTERNAL_SERVER_ERROR)
+    }
 }

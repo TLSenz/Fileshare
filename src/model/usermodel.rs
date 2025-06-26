@@ -1,6 +1,7 @@
 use std::env::VarError;
 use std::fmt;
 use std::fmt::Formatter;
+use std::io::Error;
 use std::num::TryFromIntError;
 use axum::extract::multipart::MultipartError;
 use axum::http::StatusCode;
@@ -9,7 +10,9 @@ use bcrypt::BcryptError;
 use chrono::NaiveDateTime;
 use diesel::{Insertable, Queryable, Selectable};
 use serde::{Deserialize, Serialize};
+use tokio::task::JoinError;
 use crate::schema::*;
+use crate::schema::users::email;
 
 #[derive(Queryable, Selectable, Serialize, Deserialize, Debug)]
 #[diesel(table_name = users)]
@@ -32,7 +35,13 @@ pub struct CreateUserRequest{
 #[derive(Serialize,Deserialize,Queryable, Clone)]
 pub struct LoginRequest{
     pub name:String,
-    pub password: String
+    pub password: String,
+    pub email: String
+}
+
+pub struct LoginResponse{
+    pub status_code: StatusCode,
+    pub jwt_token: String
 }
 
 #[derive(Queryable, Selectable, Debug, PartialEq)]
@@ -111,5 +120,17 @@ impl From<MultipartError> for ConversionError {
 impl From<VarError> for ConversionError{
     fn from(value: VarError) -> Self {
         ConversionError::ConversionError("Error Converting stuff".to_string())
+    }
+}
+impl From<JoinError> for ConversionError{
+    fn from(value: JoinError) -> Self {
+        println!("{}", value);
+        ConversionError::ConversionError("Error Join Handle".to_string())
+    }
+}
+
+impl From<Box<dyn std::error::Error>> for ConversionError{
+    fn from(value: Box<dyn std::error::Error>) -> Self {
+        ConversionError::ConversionError("Error".to_string())
     }
 }

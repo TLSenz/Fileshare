@@ -1,10 +1,11 @@
 use std::env;
 use std::fmt::Error;
-use diesel::{Connection, RunQueryDsl, SqliteConnection};
+use diesel::{Connection, ExpressionMethods, QueryDsl, QueryResult, RunQueryDsl, SqliteConnection};
 use diesel::associations::HasTable;
 use dotenv::dotenv;
 use tokio::task;
-use crate::model::usermodel::{CreateUserRequest, User};
+use crate::model::securitymodel::EncodeJWT;
+use crate::model::usermodel::{ConversionError, CreateUserRequest, LoginRequest, User};
 use crate::schema::users::dsl::*;
 
 pub fn establish_connection() -> SqliteConnection {
@@ -17,9 +18,6 @@ pub fn establish_connection() -> SqliteConnection {
 
 
 pub async fn create_user(new_user: CreateUserRequest) -> Result<bool, Error>{
-
-    
-
     let res = task::spawn_blocking(move || {
         let connection =  &mut establish_connection();
         diesel::insert_into(users::table())
@@ -28,8 +26,7 @@ pub async fn create_user(new_user: CreateUserRequest) -> Result<bool, Error>{
 
 
     }).await;
-
-
+    
   match res { 
       Ok(Ok(user)) => {
           println!("{:?}", user);
@@ -47,4 +44,52 @@ pub async fn create_user(new_user: CreateUserRequest) -> Result<bool, Error>{
 
     
 }
+
+pub async fn check_if_user_exist(user: EncodeJWT) -> Result<bool,ConversionError>{
+    
+    let res = task::spawn_blocking(move || {
+        let connection = &mut establish_connection();
+        
+        users.count().filter(email.eq(user.email)).limit(1).get_result::<i64>( connection)
+    }).await?;
+    
+    let res = match res {
+        Ok(count) => {count}
+        Err(_) => {
+            println!("Error: {}", Error);
+            0
+        }
+    };
+    if res > 0{
+        Ok(true)
+    }
+    else { 
+        Err(ConversionError::ConversionError("Error with DB".to_string()))
+    }
+}
+
+pub async fn check_if_user_exist_login(user: LoginRequest) -> Result<bool,ConversionError>{
+
+    let res = task::spawn_blocking(move || {
+        let connection = &mut establish_connection();
+
+        users.count().filter(name.eq(user.name)).filter(password.eq(user.password)).limit(1).get_result::<i64>( connection)
+    }).await?;
+
+    let res = match res {
+        Ok(count) => {count}
+        Err(_) => {
+            println!("Error: {}", Error);
+            0
+        }
+    };
+    if res > 0{
+        Ok(true)
+    }
+    else {
+        Err(ConversionError::ConversionError("Error with DB".to_string()))
+    }
+}
+
+
 
