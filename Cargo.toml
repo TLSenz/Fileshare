@@ -17,3 +17,7 @@ diesel = { version = "2.2.0", features = ["sqlite", "returning_clauses_for_sqlit
 tower-http = { version = "0.6.6", features = ["full"] }
 mime_guess = "2.0.5"
 urlencoding = "2.1.3"
+aws-config = "1.8.0"
+aws-sdk-s3control = "1.84.0"
+aws-sdk-s3 = "1.94.0"
+bytes = "1.10.1"

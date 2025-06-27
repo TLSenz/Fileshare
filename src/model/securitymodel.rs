@@ -1,6 +1,7 @@
 use std::fmt;
 use std::fmt::{write, Formatter};
 use axum::http::StatusCode;
+use axum::response::{IntoResponse, Response};
 use serde::{Deserialize, Serialize};
 use crate::model::usermodel;
 
@@ -33,5 +34,11 @@ impl From<usermodel::ConversionError> for AuthError {
     fn from(err: usermodel::ConversionError) -> Self {
         
         AuthError::AuthError("Error".to_string(), StatusCode::INTERNAL_SERVER_ERROR)
+    }
+}
+
+impl IntoResponse for AuthError{
+    fn into_response(self) -> Response {
+        StatusCode::FORBIDDEN.into_response()
     }
 }
