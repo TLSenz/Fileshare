@@ -5,6 +5,7 @@ use std::io::Error;
 use std::num::TryFromIntError;
 use axum::extract::multipart::MultipartError;
 use axum::http::StatusCode;
+use axum::Json;
 use axum::response::{IntoResponse, Response};
 use bcrypt::BcryptError;
 use chrono::NaiveDateTime;
@@ -42,6 +43,15 @@ pub struct LoginRequest{
 pub struct LoginResponse{
     pub status_code: StatusCode,
     pub jwt_token: String
+}
+
+impl IntoResponse for LoginResponse{
+    fn into_response(self) -> Response {
+        let res_json = serde_json::json!({
+            "token" : self.jwt_token,
+        });
+        (StatusCode::OK, Json(res_json)).into_response()
+    }
 }
 
 #[derive(Queryable, Selectable, Debug, PartialEq)]

@@ -1,6 +1,8 @@
 use std::fmt::Error;
 use std::fs::File;
 use std::io::Write;
+use bytes::Bytes;
+use aws_sdk_s3::primitives::ByteStream;
 use axum::extract::Multipart;
 use bcrypt::hash;
 use crate::model::filemodel::GetFileResponse;
@@ -61,26 +63,10 @@ pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionEr
             is_deleted: Some(0),
         };
 
+        aws(&data, &file_struct).await?;
+        write_data(&data, &file_struct).await?;
 
-
-        let file = File::create(filename);
-        match file {
-            Ok(mut file) => {
-                let file_write_result = file.write(&*data);
-
-                match file_write_result {
-                    Ok(..) => {
-                        println!("Successfully wrote to File");
-                    }
-                    Err(..) => {
-                        println!("Could not Write to File");
-                    }
-                }
-            }
-            Err(error) => {
-                println!("Failing to write to File. Error is: {}", error );
-            }
-        }
+       
         let other_link = create_link(file_struct).await?;
         links.push(other_link)
     }
@@ -124,4 +110,26 @@ pub async fn get_file_name(file_link: String) -> Result<GetFileResponse,Error> {
     };
 
     Ok(res)
+}
+
+pub async fn aws(data: &Bytes, data_info: &FileToInsert) -> Result<(), Box<dyn std::error::Error>> {
+    let config = aws_config::load_defaults(aws_config::BehaviorVersion::latest()).await;
+    let client = aws_sdk_s3::Client::new(&config);
+    
+    client.put_object()
+        .bucket("fileshareapistorage")
+        .key(&data_info.file_name)
+        .body(ByteStream::from(data.to_vec()))
+        .send()
+        .await?;
+        
+    Ok(())
+}
+
+pub async fn write_data(data: &Bytes, data_info: &FileToInsert) -> Result<(), ConversionError>{
+
+    let mut file = File::create(data_info.file_name.clone()).map_err(|e| ConversionError::ConversionError("Error Creating File".to_string()))?;
+    file.write(&*data).map_err(|e| ConversionError::ConversionError("Error writing Data to File".to_string()))?;
+ 
+    Ok(())
 }
