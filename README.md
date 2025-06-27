@@ -106,25 +106,6 @@ This phase introduces real-time notifications, enhanced security measures, and p
 
 This final phase focuses on improving the user experience with features like file previews and advanced search, along with providing valuable insights.
 
-**Features to Implement:**
-
-* **File Previews:** Generate direct preview links or embed a preview mechanism for supported file types (images, PDFs, text).
-
-* **Advanced Search and Filtering:** Implement full-text search (searching within file contents) and more sophisticated filtering options based on metadata, date ranges, or file sizes.
-
-* **API Key Management:** For a public-facing API, provide endpoints for developers to generate, revoke, and monitor their API keys.
-
-* **Basic Analytics and Reporting:** Expose aggregated data on file downloads, storage usage trends, and popular files.
-
-**Key Rust Concepts to Focus On:**
-
-* **Integration with External Services/APIs (Refinement):** Continued use of `reqwest` and related crates for processing and fetching data from various external services (e.g., document conversion, OCR).
-
-* **Custom `Iterator`s (for search):** Effective for building efficient and flexible search logic over large datasets.
-
-* **Performance Optimization (Profiling and Benchmarking):** Utilize Rust's built-in benchmarking tools and external profilers to identify and resolve performance bottlenecks, especially in search and analytics.
-
-* **FFI (Foreign Function Interface) (Optional):** Explore for interactions with highly optimized C/C++ libraries (e.g., for image processing, PDF rendering) where Rust's safety guarantees can still be maintained.
 
 ## 🚀 Getting Started
 
