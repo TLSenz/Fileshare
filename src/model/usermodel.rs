@@ -1,8 +1,13 @@
+use axum::response;
+
 use std::env::VarError;
 use std::fmt;
 use std::fmt::Formatter;
 use std::io::Error;
 use std::num::TryFromIntError;
+use aws_sdk_s3::config::http::HttpResponse;
+use aws_sdk_s3::error::SdkError;
+use aws_sdk_s3::operation::get_object::{GetObject, GetObjectError, GetObjectOutput};
 use axum::extract::multipart::MultipartError;
 use axum::http::StatusCode;
 use axum::Json;
@@ -142,5 +147,11 @@ impl From<JoinError> for ConversionError{
 impl From<Box<dyn std::error::Error>> for ConversionError{
     fn from(value: Box<dyn std::error::Error>) -> Self {
         ConversionError::ConversionError("Error".to_string())
+    }
+}
+
+impl From<aws_smithy_runtime_api::client::result::SdkError<GetObjectError, aws_smithy_runtime_api::http::Response>> for ConversionError{
+    fn from(value: SdkError<GetObjectError, aws_smithy_runtime_api::http::Response>) -> Self {
+        ConversionError::ConversionError("Error with Download AWS SDK".to_string())
     }
 }

@@ -63,7 +63,7 @@ pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionEr
             is_deleted: Some(0),
         };
 
-        aws(&data, &file_struct).await?;
+        aws_upload(&data, &file_struct).await?;
         write_data(&data, &file_struct).await?;
 
        
@@ -112,7 +112,7 @@ pub async fn get_file_name(file_link: String) -> Result<GetFileResponse,Error> {
     Ok(res)
 }
 
-pub async fn aws(data: &Bytes, data_info: &FileToInsert) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn aws_upload(data: &Bytes, data_info: &FileToInsert) -> Result<(), Box<dyn std::error::Error>> {
     let config = aws_config::load_defaults(aws_config::BehaviorVersion::latest()).await;
     let client = aws_sdk_s3::Client::new(&config);
     
@@ -132,4 +132,22 @@ pub async fn write_data(data: &Bytes, data_info: &FileToInsert) -> Result<(), Co
     file.write(&*data).map_err(|e| ConversionError::ConversionError("Error writing Data to File".to_string()))?;
  
     Ok(())
+}
+
+pub async fn aws_download(file_key:String) -> Result<Bytes,ConversionError>{
+
+    let config = aws_config::load_defaults(aws_config::BehaviorVersion::latest()).await;
+    let client = aws_sdk_s3::Client::new(&config);
+
+
+    let mut response = client.get_object().bucket("fileshareapistorage").key(file_key).send().await?;
+    
+    let body = response.body.next().await;
+    
+    match body {
+        Some(data) => data.map_err(|_| ConversionError::ConversionError("Could not read Data from AWS".to_string())),
+        None => Err(ConversionError::ConversionError("No Data Found on aws".to_string()))
+    }
+    
+    
 }
