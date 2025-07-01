@@ -8,14 +8,14 @@ use crate::Security::jwt::encode_jwt;
 use crate::service::fileservice::create_folder_for_user;
 use crate::service::userservice::{check_user_login, create_user};
 
-// #[axum::debug_handler]
-pub async fn signup(Json(user):Json<CreateUserRequest>) -> Result<bool, ConversionError>{
+#[axum::debug_handler]
+pub async fn signup(Json(user):Json<CreateUserRequest>) -> Result<(), ConversionError>{
     
     let result =   create_user(user).await?;
     
     
     if result == true{
-       Ok(true)
+       Ok(())
     }
     else { 
         Err(ConversionError::ConversionError("Auathenticated".to_string()))

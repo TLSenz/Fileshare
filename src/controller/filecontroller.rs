@@ -49,8 +49,8 @@ pub async fn download(Path(file_link): Path<String> ,Extension(claims): Extensio
 
 
 }
-
-pub async fn upload_file(file: Multipart, Extension(claims): Extension<Arc<EncodeJWT>>) -> Result<String,ConversionError>{
+#[axum::debug_handler]
+pub async fn upload_file( Extension(claims): Extension<Arc<EncodeJWT>>, file: Multipart,) -> Result<String,ConversionError>{
 
     let is_stored = store_files(file, &claims.username).await;
     match is_stored {
