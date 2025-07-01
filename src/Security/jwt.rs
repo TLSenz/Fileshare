@@ -44,9 +44,10 @@ pub async fn authenticate(mut req:Request, next: Next ) -> Result<Response<Body>
     let mut header = auth_header.split_whitespace();
     let (bearer, token) = (header.next(), header.next());
     let token_data = decode_jwt(token.unwrap().to_string())?;
-    if !check_if_user_exist(token_data.claims).await?{
+    if !check_if_user_exist(token_data.claims.clone()).await?{
         return  Err(AuthError("User in JWT Token does not exist in Database".to_string(), StatusCode::FORBIDDEN))
     }
+    req.extensions_mut().insert(token_data.claims);
     Ok(next.run(req).await)
     
 }

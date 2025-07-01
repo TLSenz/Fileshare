@@ -1,21 +1,24 @@
-use axum::http::{StatusCode};
-use axum::{ Json};
+use std::sync::Arc;
+use axum::http::{HeaderMap, StatusCode};
+use axum::{Extension, Json};
 use axum::response::IntoResponse;
-use crate::model::securitymodel::AuthError;
-use crate::model::usermodel::{CreateUserRequest, LoginRequest, LoginResponse};
+use crate::model::securitymodel::{AuthError, EncodeJWT};
+use crate::model::usermodel::{ConversionError, CreateUserRequest, LoginRequest, LoginResponse};
 use crate::Security::jwt::encode_jwt;
+use crate::service::fileservice::create_folder_for_user;
 use crate::service::userservice::{check_user_login, create_user};
 
 // #[axum::debug_handler]
-pub async fn signup(Json(user):Json<CreateUserRequest> ) -> impl IntoResponse{
+pub async fn signup(Json(user):Json<CreateUserRequest>) -> Result<bool, ConversionError>{
     
-    let result =   create_user(user).await;
+    let result =   create_user(user).await?;
+    
     
     if result == true{
-        StatusCode::OK
+       Ok(true)
     }
     else { 
-        StatusCode::CONFLICT
+        Err(ConversionError::ConversionError("Auathenticated".to_string()))
     }
 }
 

@@ -25,7 +25,7 @@ pub struct User{
     pub email: String,   // Assuming users.email -> Text
 }
 #[derive(Insertable)]
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Clone)]
 #[diesel(table_name = users)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct CreateUserRequest{

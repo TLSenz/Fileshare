@@ -1,8 +1,10 @@
-
+use std::sync::Arc;
 use axum::extract::{Multipart, Path};
 use axum::body::*;
+use axum::Extension;
 use axum::response::IntoResponse;
-use axum::http::{header, Response, StatusCode};
+use axum::http::{header, HeaderMap, Response, StatusCode};
+use crate::model::securitymodel::EncodeJWT;
 use crate::model::usermodel::ConversionError;
 use crate::model::usermodel::ConversionError::*;
 use crate::service::fileservice::{get_file_name, store_files};
@@ -10,12 +12,12 @@ use crate::service::fileservice::{get_file_name, store_files};
 
 
 
-pub async fn download(Path(file_link): Path<String>) -> impl IntoResponse{
+pub async fn download(Path(file_link): Path<String> ,Extension(claims): Extension<Arc<EncodeJWT>>) -> impl IntoResponse{
     
     println!("Processing Request");
 
     let information = get_file_name(file_link).await;
-
+     
 
     match information {
         Ok(infos) => {
@@ -48,9 +50,9 @@ pub async fn download(Path(file_link): Path<String>) -> impl IntoResponse{
 
 }
 
-pub async fn upload_file(file: Multipart) -> Result<String,ConversionError>{
+pub async fn upload_file(file: Multipart, Extension(claims): Extension<Arc<EncodeJWT>>) -> Result<String,ConversionError>{
 
-    let is_stored = store_files(file).await;
+    let is_stored = store_files(file, &claims.username).await;
     match is_stored {
         Ok(links) => {
 
@@ -66,8 +68,25 @@ pub async fn upload_file(file: Multipart) -> Result<String,ConversionError>{
             Err(error)
         }
     }
+    
+}
 
-
-
+pub async fn folder_management(Path(folder_action): Path<char>)-> impl IntoResponse{
+    
+    match folder_action { 
+        m=> {
+            
+        }
+        d => {
+            
+        }
+        e => {
+                
+        }
+        g => {
+            
+        }
+        
+    }
 }
 

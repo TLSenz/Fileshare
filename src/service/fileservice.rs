@@ -1,5 +1,6 @@
 use std::fmt::Error;
-use std::fs::File;
+use std::fs;
+use std::fs::{create_dir, File};
 use std::io::Write;
 use bytes::Bytes;
 use aws_sdk_s3::primitives::ByteStream;
@@ -11,7 +12,7 @@ use crate::model::usermodel::ConversionError::*;
 use crate::repository::filerepository::{check_if_file_name_exists, get_file_name_from_db, write_name_to_db};
 
 
-pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionError>{
+pub async fn store_files(mut file: Multipart, username:&str) -> Result<Vec<String>,ConversionError>{
     let mut links = Vec::new();
 
     while let Some(field) = file.next_field().await? {
@@ -34,10 +35,9 @@ pub async fn store_files(mut file: Multipart) -> Result<Vec<String>,ConversionEr
                 content_type = "txt".to_string();
             }
         }
-
         println!("went to after contenttype");
 
-        let filename = "content/".to_owned() + other_file_name.as_str() + &"." + &content_type;
+        let filename = "content/".to_owned() + username.clone() + other_file_name.as_str() + &"." + &content_type;
         let data = field.bytes().await.map_err(ConversionError::from)?;
 
         println!("Went after Data");
@@ -128,8 +128,19 @@ pub async fn aws(data: &Bytes, data_info: &FileToInsert) -> Result<(), Box<dyn s
 
 pub async fn write_data(data: &Bytes, data_info: &FileToInsert) -> Result<(), ConversionError>{
 
-    let mut file = File::create(data_info.file_name.clone()).map_err(|e| ConversionError::ConversionError("Error Creating File".to_string()))?;
+    let mut file = File::create(data_info.storage_path.clone()).map_err(|e| ConversionError::ConversionError("Error Creating File".to_string()))?;
     file.write(&*data).map_err(|e| ConversionError::ConversionError("Error writing Data to File".to_string()))?;
  
     Ok(())
+}
+
+pub fn create_folder_for_user(user_name:&str)->Result<(),ConversionError> {
+    
+    
+    fs::create_dir(format!("/content/{}", user_name)).map_err(|e| ConversionError::ConversionError("Error Creating File".to_string()))?;
+    Ok(())
+}
+
+pub fn get_folder_management(){
+    
 }
