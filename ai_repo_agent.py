@@ -8,9 +8,9 @@ from datetime import datetime
 # Replace with your GitHub Personal Access Token (PAT)
 # It's highly recommended to set this as an environment variable (e.g., GITHUB_TOKEN)
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "YOUR_GITHUB_TOKEN")
-REPO_OWNER = "your-github-username"  # Replace with your GitHub username
-REPO_NAME = "your-repo-name"        # Replace with your repository name
-FEATURES_FILE_PATH = "FEATURES.md"  # Path to your features list file in the repo
+REPO_OWNER = "TLSenZ"  # Replace with your GitHub username
+REPO_NAME = "fileshare"        # Replace with your repository name
+FEATURES_FILE_PATH = "README.md"  # Path to your features list file in the repo
 
 # Gemini API configuration
 # Leave API key empty; Canvas will inject it at runtime for gemini-2.0-flash
